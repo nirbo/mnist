@@ -13,15 +13,15 @@ PATH_TO_LOCAL_LOGS = os.path.expanduser('~/logs/mnist')
 ROOT_PATH_TO_LOCAL_DATA = os.path.expanduser('~/data')
 
 try:
-    job_name = os.environ['JOB_NAME']
-    task_index = os.environ['TASK_INDEX']
-    ps_hosts = os.environ['PS_HOSTS']
-    worker_hosts = os.environ['WORKER_HOSTS']
+  job_name = os.environ['JOB_NAME']
+  task_index = os.environ['TASK_INDEX']
+  ps_hosts = os.environ['PS_HOSTS']
+  worker_hosts = os.environ['WORKER_HOSTS']
 except:
-    job_name = None
-    task_index = 0
-    ps_hosts = None
-    worker_hosts = None
+  job_name = None
+  task_index = 0
+  ps_hosts = None
+  worker_hosts = None
 
 flags = tf.app.flags
 
