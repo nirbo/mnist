@@ -4,7 +4,7 @@ import math
 import os
 
 import tensorflow as tf
-from tensorport import TensorportClient as tport
+from tensorport import get_data_path, get_logs_path
 
 from tensorflow.examples.tutorials.mnist import mnist
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
@@ -39,14 +39,16 @@ flags.DEFINE_string("worker_hosts", worker_hosts,
 
 # Training related flags
 flags.DEFINE_string("log_dir",
-                    tport().get_logs_path(root=PATH_TO_LOCAL_LOGS),
+                    get_logs_path(root=PATH_TO_LOCAL_LOGS),
                     "Path to store logs and checkpoints. It is recommended"
                     "to use get_logs_path() to define your logs directory."
                     "If you set your logs directory manually make sure"
                     "to use /logs/ when running on TensorPort cloud.")
 flags.DEFINE_string("data_dir",
-                    tport().get_data_path(root=ROOT_PATH_TO_LOCAL_DATA,
-                                        path='mnist-dataset'),
+                    get_data_path(dataset_name='tensorport/mnist-dataset',
+                                local_root=ROOT_PATH_TO_LOCAL_DATA,
+                                local_repo='mnist-dataset',
+                                path=''),
                     "Path to dataset. It is recommended to use get_data_path()"
                     "to define your data directory. If you set your dataset"
                     "directory manually makue sure to use /data/ as root path"
@@ -69,7 +71,7 @@ def device_and_target():
     return (None, "")
 
   # Otherwise we're running distributed TensorFlow.
-  print("Running distributed training")
+  print("%s.%d  -- Running distributed training"%(FLAGS.job_name, FLAGS.task_index))
   if FLAGS.task_index is None or FLAGS.task_index == "":
     raise ValueError("Must specify an explicit `task_index`")
   if FLAGS.ps_hosts is None or FLAGS.ps_hosts == "":
