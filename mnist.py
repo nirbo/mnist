@@ -9,8 +9,8 @@ from tensorport import get_data_path, get_logs_path
 from tensorflow.examples.tutorials.mnist import mnist
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
 
-PATH_TO_LOCAL_LOGS = os.path.expanduser('~/logs/mnist')
-ROOT_PATH_TO_LOCAL_DATA = os.path.expanduser('~/data')
+PATH_TO_LOCAL_LOGS = os.path.expanduser('~/Documents/mnist/logs')
+ROOT_PATH_TO_LOCAL_DATA = os.path.expanduser('~/Documents/data/mnist')
 
 try:
   job_name = os.environ['JOB_NAME']
@@ -38,21 +38,28 @@ flags.DEFINE_string("worker_hosts", worker_hosts,
                     "Comma-separated list of hostname:port pairs")
 
 # Training related flags
-flags.DEFINE_string("log_dir",
-                    get_logs_path(root=PATH_TO_LOCAL_LOGS),
+# Training related flags
+flags.DEFINE_string("data_dir",
+                    get_data_path(
+                        dataset_name = "malo/mnist", #all mounted repo
+                        local_root = ROOT_PATH_TO_LOCAL_DATA,
+                        local_repo = "mnist",
+                        path = ''
+                        ),
                     "Path to store logs and checkpoints. It is recommended"
                     "to use get_logs_path() to define your logs directory."
+                    "so that you can switch from local to tensorport without"
+                    "changing your code."
                     "If you set your logs directory manually make sure"
                     "to use /logs/ when running on TensorPort cloud.")
-flags.DEFINE_string("data_dir",
-                    get_data_path(dataset_name='tensorport/mnist-dataset',
-                                local_root=ROOT_PATH_TO_LOCAL_DATA,
-                                local_repo='mnist-dataset',
-                                path=''),
+flags.DEFINE_string("log_dir",
+                     get_logs_path(root=PATH_TO_LOCAL_LOGS),
                     "Path to dataset. It is recommended to use get_data_path()"
-                    "to define your data directory. If you set your dataset"
-                    "directory manually makue sure to use /data/ as root path"
-                    "when running on TensorPort cloud.")
+                    "to define your data directory.so that you can switch "
+                    "from local to tensorport without changing your code."
+                    "If you set the data directory manually makue sure to use"
+                    "/data/ as root path when running on TensorPort cloud.")
+
 flags.DEFINE_integer("hidden1", 128,
                      "Number of units in the 1st hidden layer of the NN")
 flags.DEFINE_integer("hidden2", 128,
@@ -62,6 +69,8 @@ flags.DEFINE_float("learning_rate", 0.01, "Learning rate")
 
 FLAGS = flags.FLAGS
 
+print(FLAGS.data_dir)
+print(FLAGS.log_dir)
 
 def device_and_target():
   # If FLAGS.job_name is not set, we're running single-machine TensorFlow.
