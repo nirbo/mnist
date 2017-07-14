@@ -25,7 +25,7 @@ $ git clone https://github.com/malomarrec/tensorport-self-driving-demo.git
 
 `cd` into that repo.
 
-# Simple mnist
+# 1.1 Simple mnist
 
 For this step we will run `mnist.py`. This is a simple one layer network.
 The data will be downloaded automatically in what you specify in the code in
@@ -123,14 +123,112 @@ I/O to workers. 1 should be enough.
  $ 1
 ```
 
-
+Note: This code will work only on Tensorflow 1.0.0 (ot will fail on more recent
+versions in distributed mode).
 
 Note that all of this can be passed in one single command:
 
-``` bash
+```bash
 tport run --local --distributed --worker-replicas 2 --ps-replicas 1 --requirements 1 --module mnist
 ```
 
+
+## Run on TensorPort
+
+Our code is ready to run on tensorport.
+
+### Create a TensorPort Project
+
+`cd` into the repo then run
+
+``` bash
+$ tport create project
+ -> Choose a valid project name:
+$ mnist-demo
+Creating project mnist-demo .......
+Project malo/mnist-demo is created.
+Matrix: https://tensorport.com/matrix/malo/mnist-demo
+
+Push the code to tensorport using 'git push tensorport master'
+```
+
+The project has been create on TensorPort's git. Let's push the code:
+
+``` bash
+$ git push tensorport master
+```
+
+You should see:
+```
+Counting objects: 30, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (29/29), done.
+Writing objects: 100% (30/30), 180.55 KiB | 0 bytes/s, done.
+Total 30 (delta 14), reused 0 (delta 0)
+To https://git.tensorport.com/malo/mnist-demo.git
+ * [new branch]      master -> master
+ ```
+
+Our code is uploaded, we're ready to run.
+
+```bash
+$ tport run
+-> Job name [cool-shape-270]:
+```
+Select the project:
+```
+-> Select the project that you want to use or specify --project parameter.
+0 | malo/mnist-demo | Commits: 8
+1 | malo/self-driving-car-1 | Commits: 20
+$ 0
+```
+
+Now select the most recent commit (0):
+``` bash
+-> Specify the commit for the job, select 0 for latest commit:
+|   | Commit # | Commit message                                        | date                |
+|---|----------|-------------------------------------------------------|---------------------|
+| 0 | d7d1ad23 | Minor fixes on paths                                  | 2017-07-14T11:42:38 |
+| 1 | 0aa4592e | Start work on doc                                     | 2017-07-14T11:26:39 |
+| 2 | 166c44ee | Fix issue with stringy task index (move to flag to do | 2017-07-13T18:33:11 |
+|   |          | the casting) + add accuracy out                       |                     |
+...
+Select commit from [0 - 7] [0]: 0
+```
+
+Now pick the python module you want to run, and leave the package path empty as
+the module is in the root.
+```bash
+Specify the python module to run [main]: mnist
+-> Specify the package path []:
+```
+
+
+
+
+
+
+
+
+Your job is created and running. You can monitor the status of your jobs with:
+
+
+
+
+
+You can watch the progress of the resources
+requirements and data cloning by running:
+
+
+Log on to Matrix to see the outputs and add the project to TensorBoard.
+
+
+
+
+
+
+
+# 1.2 Deep dive into dataset setup
 
 ## Run locally
 Make sure you have the proper TensorFlow environment.
