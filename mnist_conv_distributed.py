@@ -16,7 +16,6 @@ import os
 import tensorflow as tf
 import sys
 import urllib
-from tensorport import TensorportClient as tport
 slim = tf.contrib.slim
 
 if sys.version_info[0] >= 3:
@@ -24,14 +23,26 @@ if sys.version_info[0] >= 3:
 else:
   from urllib import urlretrieve
 
-PATH_TO_LOCAL_LOGS = os.path.expanduser('~/logs/mnist_tutorial/')
-ROOT_PATH_TO_LOCAL_DATA = os.path.expanduser('~/data')
 
+# ----- Insert that snippet to run distributed jobs -----
+
+from tensorport import get_data_path, get_logs_path
+
+# Specifying paths when working locally
+# For convenience we use a tensorport wrapper (get_data_path below) to be able
+# to switch from local to tensorport without cahnging the code.
+
+PATH_TO_LOCAL_LOGS = os.path.expanduser('~/Documents/mnist/logs')
+ROOT_PATH_TO_LOCAL_DATA = os.path.expanduser('~/Documents/data/')
+
+# Configure  distributed task
 try:
   job_name = os.environ['JOB_NAME']
   task_index = os.environ['TASK_INDEX']
   ps_hosts = os.environ['PS_HOSTS']
   worker_hosts = os.environ['WORKER_HOSTS']
+
+  print(job_name,task_index,ps_hosts,worker_hosts)
 except:
   job_name = None
   task_index = 0
@@ -45,29 +56,35 @@ flags.DEFINE_string("job_name", job_name,
                     "job name: worker or ps")
 flags.DEFINE_integer("task_index", task_index,
                      "Worker task index, should be >= 0. task_index=0 is "
-                     "the chief worker task the performs the variable "
-                     "initialization")
+                     "the chief worker task that performs the variable "
+                     "initialization and checkpoint handling")
 flags.DEFINE_string("ps_hosts", ps_hosts,
                     "Comma-separated list of hostname:port pairs")
 flags.DEFINE_string("worker_hosts", worker_hosts,
                     "Comma-separated list of hostname:port pairs")
 
 # Training related flags
-flags.DEFINE_string("log_dir",
-                    tport().get_logs_path(root=PATH_TO_LOCAL_LOGS),
+flags.DEFINE_string("data_dir",
+                    get_data_path(
+                        dataset_name = "malo/mnist", #all mounted repo
+                        local_root = ROOT_PATH_TO_LOCAL_DATA,
+                        local_repo = "mnist",
+                        path = 'data'
+                        ),
                     "Path to store logs and checkpoints. It is recommended"
                     "to use get_logs_path() to define your logs directory."
+                    "so that you can switch from local to tensorport without"
+                    "changing your code."
                     "If you set your logs directory manually make sure"
                     "to use /logs/ when running on TensorPort cloud.")
-flags.DEFINE_string("data_dir",
-                    tport().get_data_path(root=ROOT_PATH_TO_LOCAL_DATA,
-                                        path='mnist-dataset'),
+flags.DEFINE_string("log_dir",
+                     get_logs_path(root=PATH_TO_LOCAL_LOGS),
                     "Path to dataset. It is recommended to use get_data_path()"
-                    "to define your data directory. If you set your dataset"
-                    "directory manually makue sure to use /data/ as root path"
-                    "when running on TensorPort cloud.")
+                    "to define your data directory.so that you can switch "
+                    "from local to tensorport without changing your code."
+                    "If you set the data directory manually makue sure to use"
+                    "/data/ as root path when running on TensorPort cloud.")
 FLAGS = flags.FLAGS
-
 
 def device_and_target():
   # If FLAGS.job_name is not set, we're running single-machine TensorFlow.
@@ -76,7 +93,7 @@ def device_and_target():
     print("Running single-machine training")
     return (None, "")
 
-  # Otherwise we're running distributed TensorFlow.
+  # Otherwise we're running distributed TensorFlow
   print("Running distributed training")
   if FLAGS.task_index is None or FLAGS.task_index == "":
     raise ValueError("Must specify an explicit `task_index`")
@@ -104,11 +121,13 @@ def device_and_target():
       server.target,
   )
 
+# --- end of snippet ----
+
 
 GITHUB_URL ='https://raw.githubusercontent.com/mamcgrath/TensorBoard-TF-Dev-Summit-Tutorial/master/'
 
 ### MNIST EMBEDDINGS ###
-mnist = tf.contrib.learn.datasets.mnist.read_data_sets(train_dir=FLAGS.log_dir + 'data', one_hot=True)
+mnist = tf.contrib.learn.datasets.mnist.read_data_sets(train_dir=FLAGS.data_dir, one_hot=True)
 ### Get a sprite and labels file for the embedding projector ###
 urlretrieve(GITHUB_URL + 'labels_1024.tsv', FLAGS.log_dir + 'labels_1024.tsv')
 urlretrieve(GITHUB_URL + 'sprite_1024.png', FLAGS.log_dir + 'sprite_1024.png')
@@ -145,8 +164,8 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
     raise ValueError("Must specify an explicit `data_dir`")
 
   tf.reset_default_graph()
-  device, target = device_and_target()
-  with tf.device(device):
+  device, target = device_and_target() # getting node environment
+  with tf.device(device): # define model
     global_step = slim.get_or_create_global_step()
     # Setup placeholders, and reshape the data
     x = tf.placeholder(tf.float32, shape=[None, 784], name="x")
@@ -180,7 +199,7 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
       tf.summary.scalar("xent", xent)
 
     with tf.name_scope("train"):
-      train_step = tf.train.AdamOptimizer(learning_rate).minimize(xent)
+      train_step = tf.train.AdamOptimizer(learning_rate).minimize(xent,global_step=global_step)
 
     with tf.name_scope("accuracy"):
       correct_prediction = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
@@ -203,6 +222,7 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
     # Specify the width and height of a single thumbnail.
     embedding_config.sprite.single_image_dim.extend([28, 28])
 
+# Using tensorflow's MonitoredTrainingSession to take care of checkpoints
 
   with tf.train.MonitoredTrainingSession(
       master=target,
@@ -214,9 +234,10 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
 
     for i in range(2001):
       batch = mnist.train.next_batch(100)
-      if task_index == 0:
+      [train_accuracy, s] = sess.run([accuracy, summ], feed_dict={x: batch[0], y: batch[1]})
+      if FLAGS.task_index == 0:
         if i % 5 == 0:
-          [train_accuracy, s] = sess.run([accuracy, summ], feed_dict={x: batch[0], y: batch[1]})
+          print("Batch %s - training accuracy: %s" % (i,train_accuracy))
           writer.add_summary(s, i)
         if i % 500 == 0:
           sess.run(assignment, feed_dict={x: mnist.test.images[:1024], y: mnist.test.labels[:1024]})
