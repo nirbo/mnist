@@ -338,9 +338,10 @@ On TensorPort, that function returns:
 
 Let's change `ROOT_PATH_TO_LOCAL_DATA` to `~/Documents/data2/mnist` in `mnist.py`.
 
-The `dataset_name` is always `<username_of_owner>/<dataset_name>`. You are going
-to create the dataset now, so you will be able to update
-`<username_of_owner>/<dataset_name>` accordingly (in my example, `malo/mnist-dataset`).
+The `dataset_name` should be the name of the dataset on Tensorport. It is always 
+`<username_of_owner>/<data_repo_name>`. You are going to create the dataset now,
+so you will be able to update`<username_of_owner>/<dataset_name>` accordingly 
+(in my example, `malo/mnist-dataset`).
 
 The tree on tensorport will be:
 data
