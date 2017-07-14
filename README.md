@@ -1,11 +1,11 @@
 This demo will teach you how to run Tensorflow models on TensorPort. We will go
 from a simple mnist demo to a more complex self-steering car demo.
 
-1.1) Simple mnist (google Tensorflow demo) - no dataset setup
-1.2) Deep dive into dataset setup
-2.1) CNN mnist - single-node
-2.2) Make that CNN distributed
-3) [Self - steering car here](https://github.com/malomarrec/tensorport-self-driving-demo)
+1.1. Simple mnist (google Tensorflow demo) - no dataset setup
+1.2. Deep dive into dataset setup
+2.1. CNN mnist - single-node
+2.2. Make that CNN distributed
+3. [Self - steering car](https://github.com/malomarrec/tensorport-self-driving-demo)
 
 
 
@@ -242,28 +242,17 @@ You can see your job in matrix : https://tensorport.com/matrix/malo/mnist-demo.
 Job 'crimson-fog-711' started.
 ```
 
-
-
-
-
-
-
 Your job is created and running. You can monitor the status of your jobs with:
 
+``` bash
+$ tport pulse
+```
 
-
-
-
-You can watch the progress of the resources
-requirements and data cloning by running:
-
-
+You can watch the progress of the resources requirements and data cloning by running:
+```bash
+$ tport watch
+```
 Log on to Matrix to see the outputs and add the project to TensorBoard.
-
-
-
-
-
 
 
 # 1.2 Deep dive into dataset setup
@@ -290,9 +279,6 @@ looks like this:
          | t10k-images-idx3-ubyte.gz
          | <files>
 
-
-
-#
 
 For this example, we'll pretend that we are creating a dataset from scratch.
 Copy the dataset somewhere else, for example in `~/Documents/data2`.
@@ -378,7 +364,7 @@ Run using `tport run` just as in the previous part, but at the dataset prompt:
 1 | malo/comma-train-only
  -> Select dataset to use from [0 - 1] [0]:
 $ 0
- -> Do you want to add another dataset to the job? y/N [n]:
+ -> Do you want to add another datasetport t to the job? y/N [n]:
  $ n
  -> Specify the requirements file [requirements.txt]:
 -> Select a TensorFlow version from
@@ -390,4 +376,9 @@ $ 0
 ```
 
 Now our job started, as we can see with `tport pulse`, and we can monitor the
-workflow with `tport watch`
+workflow with `tport watch`.
+
+
+The next twotp
+
+# 2.1 Simple mnist
