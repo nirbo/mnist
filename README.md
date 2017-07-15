@@ -1,10 +1,14 @@
-This demo will teach you how to run Tensorflow models on TensorPort. We will go
+This demo will teach you how to run TensorFlow models on TensorPort. We will go
 from a simple mnist demo to a more complex self-steering car demo.
 
-1.1. Simple mnist (google Tensorflow demo) - no dataset setup
+1.1. Simple mnist (google TensorFlow demo) - no dataset setup
+
 1.2. Deep dive into dataset setup
+
 2.1. CNN mnist - single-node
+
 2.2. Make that CNN distributed
+
 3. [Self - steering car](https://github.com/malomarrec/tensorport-self-driving-demo)
 
 
@@ -44,7 +48,7 @@ You can run that code in your local environment with:
 $ python mnist.py
 ```
 You should see loss values starting to appear.
-Note that you need to have Tensorflow 1.0.0 or later installed in that environment.
+Note that you need to have TensorFlow 1.0.0 or later installed in that environment.
 
 ## Simulate a distributed environment locally
 
@@ -54,7 +58,7 @@ simulate a remote and distributed TensorPort environment on your computer.
 
 ### Single-node
 
-Let's first run a single-node TensorPort environment. This will create and empty
+Let's first run a single-node TensorPort environment. This will create an empty
 virtualenv, and optionally install the requirements specified in a requirements
 file.
 
@@ -70,7 +74,7 @@ $ ...
 ```
 
 Here we don't need any specific library, so we can just use a basic virtualenv
-with Tensorflow only. Select 1. The utility will install a basic virtualenv and
+with TensorFlow only. Select 1. The utility will install a basic virtualenv and
 run your code.
 
 ```
@@ -79,9 +83,9 @@ Using real prefix '/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/V
 New python executable in /Users/malo/.tensorport/env/test/bin/python2.7
 Also creating executable in /Users/malo/.tensorport/env/test/bin/python
 ...
-I tensorflow/core/kernels/logging_ops.cc:79] Loss = [0.080547988]
-I tensorflow/core/kernels/logging_ops.cc:79] Loss = [0.15762429]
-I tensorflow/core/kernels/logging_ops.cc:79] Loss = [0.097241819]
+I TensorFlow/core/kernels/logging_ops.cc:79] Loss = [0.080547988]
+I TensorFlow/core/kernels/logging_ops.cc:79] Loss = [0.15762429]
+I TensorFlow/core/kernels/logging_ops.cc:79] Loss = [0.097241819]
 ```
 That step can be useful to debug a script and make sure all requirements will
 be installed remotely.
@@ -127,7 +131,7 @@ I/O to workers. 1 should be enough.
  $ 1
 ```
 
-Note: This code will work only on Tensorflow 1.0.0 (ot will fail on more recent
+Note: This code will work only on TensorFlow 1.0.0 (it will fail on more recent
 versions in distributed mode).
 
 Note that all of this can be passed in one single command:
@@ -139,7 +143,7 @@ tport run --local --distributed --worker-replicas 2 --ps-replicas 1 --requiremen
 
 ## Run on TensorPort
 
-Our code is ready to run on tensorport.
+Our code is ready to run on TensorPort.
 
 ### Create a TensorPort Project
 
@@ -153,7 +157,7 @@ Creating project mnist-demo .......
 Project malo/mnist-demo is created.
 Matrix: https://tensorport.com/matrix/malo/mnist-demo
 
-Push the code to tensorport using 'git push tensorport master'
+Push the code to TensorPort using 'git push tensorport master'
 ```
 
 The project has been create on TensorPort's git. Let's push the code:
@@ -268,7 +272,7 @@ If you've run the previous script, data should have been downloaded in
 `<ROOT_PATH_TO_LOCAL_DATA>/mnist-dataset`, in my case `~/Documents/data`
 
 
-Copy that data somewhere else:, for example in ~/Documents/data/`.
+Copy that data somewhere else:, for example in ``~/Documents/data/`.
 Right now the download utility creates an `mnist` folder, so the local tree
 looks like this:
 ~/Documents
@@ -312,7 +316,7 @@ Dataset malo/test-comma is created.
 Matrix: https://tensorport.com/matrix/malo/test-comma
 ```
 
-Now let's push the code to tensorport:
+Now let's push the code to TensorPort:
 
 ``` bash
 $ git push tensorport master
@@ -343,7 +347,7 @@ The `dataset_name` should be the name of the dataset on Tensorport. It is always
 so you will be able to update`<username_of_owner>/<dataset_name>` accordingly 
 (in my example, `malo/mnist-dataset`).
 
-The tree on tensorport will be:
+The tree on TensorPort will be:
 data
   | malo
     | mnist-dataset
@@ -354,7 +358,7 @@ data
 but we don't need to worry too much about this as get_data_path will take care of it.
 
 Now we can:
-- push the updated code to tensorport
+- push the updated code to TensorPort
 - run a job
 
 Run using `tport run` just as in the previous part, but at the dataset prompt:
@@ -391,7 +395,7 @@ It has nice TensorBoard summaries that you can visualize on the platform.
 
 # 2.1 CNN mnist - distributed
 
-To run a distributed model, we use TensorFLow's [`MonitoredTrainingSession`](https://www.tensorflow.org/api_docs/python/tf/train/MonitoredTrainingSession).
+To run a distributed model, we use TensorFlow's [`MonitoredTrainingSession`](https://www.TensorFlow.org/api_docs/python/tf/train/MonitoredTrainingSession).
 A TensorPort utility take care of all the node set up.
 
 Open mnist_conv_distributed.py.
@@ -471,7 +475,7 @@ and as arguments to the training session:
 
 ```
 tf.train.MonitoredTrainingSession(
-     master=target, #
+     master=target,
      is_chief=(FLAGS.task_index == 0), #only the chief will save checkpoints
      checkpoint_dir=FLAGS.log_dir) as sess:
 
@@ -479,4 +483,4 @@ tf.train.MonitoredTrainingSession(
 ```
 
 
-Now you should be good to go and run this on TensorPort :). 
+Now you should be good to go and run this on TensorPort :).
