@@ -92,6 +92,8 @@ be installed remotely.
 
 ### Distributed
 
+`* There is a known issue with that part of the mnist demo. We are working on fixing it. The code runs on the TensorPort cluster, even though the distributed environment simulation has problems for that particular code. We encourage you to check out the self-steering car demo as a proxy for this part *`
+
 To simulate a distributed environment, run:
 
 
