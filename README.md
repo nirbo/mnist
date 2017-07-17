@@ -354,12 +354,15 @@ so you will be able to update`<username_of_owner>/<dataset_name>` accordingly
 (in my example, `malo/mnist-dataset`).
 
 The tree on TensorPort will be:
+
+```
 data
   | malo
     | mnist-dataset
        | t10k-labels-idx1-ubyte.gz
        | t10k-images-idx3-ubyte.gz
        | <files>
+```
 
 but we don't need to worry too much about this as get_data_path will take care of it.
 
