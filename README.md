@@ -69,7 +69,7 @@ $ mnist
 -> Requirements file not specified. You can
    0- Specify a requirements file
    1- Run without installing any requirments
-   2- Use your current environemt (not recommended).
+   2- Use your current environment (not recommended).
 $ ...
 ```
 
@@ -92,7 +92,7 @@ be installed remotely.
 
 ### Distributed
 
-`* There is a known issue with that part of the mnist demo. We are working on fixing it. The code runs on the TensorPort cluster, even though the distributed environment simulation has problems for that particular code. We encourage you to check out the self-steering car demo as a proxy for this part *`
+`* There is a known issue in some environments with that part of the mnist demo. We are working on fixing it. The code runs on the TensorPort cluster, even though the distributed environment simulation fails. We encourage you to check out the self-steering car demo as a proxy for this part *`
 
 To simulate a distributed environment, run:
 
@@ -274,9 +274,10 @@ If you've run the previous script, data should have been downloaded in
 `<ROOT_PATH_TO_LOCAL_DATA>/mnist-dataset`, in my case `~/Documents/data`
 
 
-Copy that data somewhere else:, for example in ``~/Documents/data/`.
+Copy that data somewhere else:, for example in `~/Documents/data/`.
 Right now the download utility creates an `mnist` folder, so the local tree
 looks like this:
+```
 ~/Documents
   | data
     | mnist-dataset
@@ -284,12 +285,14 @@ looks like this:
          | t10k-labels-idx1-ubyte.gz
          | t10k-images-idx3-ubyte.gz
          | <files>
+```
 
 
 For this example, we'll pretend that we are creating a dataset from scratch.
 Copy the dataset somewhere else, for example in `~/Documents/data2`.
 Now the local tree is:
 
+```
 ~/Documents
   | data2
     | mnist-dataset
@@ -297,6 +300,7 @@ Now the local tree is:
          | t10k-labels-idx1-ubyte.gz
          | t10k-images-idx3-ubyte.gz
          | <files>
+````
 
 Remove the dataset from the old location.
 
@@ -338,7 +342,7 @@ with:
 - `path`: path to the files within the dataset, if you have a complicated tree
 
 Locally, that wrapper returns:
-`local_root/local_repo/path`, here: ``~/Documents/data2/mnist` as `path =''`.
+`local_root/local_repo/path`, here: `~/Documents/data2/mnist` as `path =''`.
 On TensorPort, that function returns:
 `/data/dataset_name/path`.
 
@@ -461,7 +465,7 @@ def device_and_target():
       server.target,
   )
 ```
-In a distributed environment, `device_and_target()`` creates the Cluster config.
+In a distributed environment, `device_and_target()` creates the Cluster config.
 `device, target = device_and_target()` gets the node environment. We will use it
 when we set up the model graph:
 
