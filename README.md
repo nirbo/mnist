@@ -28,7 +28,7 @@ You can now login through `tport login`.
 Then clone this repo on your computer:
 
 ``` bash
-$ git clone https://github.com/malomarrec/tensorport-self-driving-demo.git
+$ git clone https://github.com/tensorport/mnist
 ```
 
 `cd` into that repo.
