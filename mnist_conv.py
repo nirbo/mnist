@@ -16,7 +16,9 @@ import os
 import tensorflow as tf
 import sys
 import urllib
-from tensorport import TensorportClient as tport
+
+from tensorport import get_data_path, get_logs_path
+
 slim = tf.contrib.slim
 
 if sys.version_info[0] >= 3:
@@ -54,13 +56,13 @@ flags.DEFINE_string("worker_hosts", worker_hosts,
 
 # Training related flags
 flags.DEFINE_string("log_dir",
-                    tport().get_logs_path(root=PATH_TO_LOCAL_LOGS),
+                    get_logs_path(root=PATH_TO_LOCAL_LOGS),
                     "Path to store logs and checkpoints. It is recommended"
                     "to use get_logs_path() to define your logs directory."
                     "If you set your logs directory manually make sure"
                     "to use /logs/ when running on TensorPort cloud.")
 flags.DEFINE_string("data_dir",
-                    tport().get_data_path(root=ROOT_PATH_TO_LOCAL_DATA,
+                    get_data_path(root=ROOT_PATH_TO_LOCAL_DATA,
                                         path='mnist-dataset'),
                     "Path to dataset. It is recommended to use get_data_path()"
                     "to define your data directory. If you set your dataset"
