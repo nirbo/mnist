@@ -55,19 +55,27 @@ flags.DEFINE_string("worker_hosts", worker_hosts,
                     "Comma-separated list of hostname:port pairs")
 
 # Training related flags
-flags.DEFINE_string("log_dir",
-                    get_logs_path(root=PATH_TO_LOCAL_LOGS),
+flags.DEFINE_string("data_dir",
+                    get_data_path(
+                        dataset_name = "malo/mnist", #all mounted repo
+                        local_root = ROOT_PATH_TO_LOCAL_DATA,
+                        local_repo = "mnist",
+                        path = ''
+                        ),
                     "Path to store logs and checkpoints. It is recommended"
                     "to use get_logs_path() to define your logs directory."
+                    "so that you can switch from local to tensorport without"
+                    "changing your code."
                     "If you set your logs directory manually make sure"
                     "to use /logs/ when running on TensorPort cloud.")
-flags.DEFINE_string("data_dir",
-                    get_data_path(root=ROOT_PATH_TO_LOCAL_DATA,
-                                        path='mnist-dataset'),
+flags.DEFINE_string("log_dir",
+                     get_logs_path(root=PATH_TO_LOCAL_LOGS),
                     "Path to dataset. It is recommended to use get_data_path()"
-                    "to define your data directory. If you set your dataset"
-                    "directory manually makue sure to use /data/ as root path"
-                    "when running on TensorPort cloud.")
+                    "to define your data directory.so that you can switch "
+                    "from local to tensorport without changing your code."
+                    "If you set the data directory manually makue sure to use"
+                    "/data/ as root path when running on TensorPort cloud.")
+
 FLAGS = flags.FLAGS
 
 
