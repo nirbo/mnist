@@ -11,7 +11,7 @@ from a simple mnist demo to a more complex self-steering car demo.
 
 3. [Self - steering car](https://github.com/malomarrec/tensorport-self-driving-demo)
 
-
+4. Build your own! You can also use this [distributed TensorFlow template](https://github.com/tensorport/tensorport-template)
 
 # Setup
 
@@ -348,9 +348,9 @@ On TensorPort, that function returns:
 
 Let's change `ROOT_PATH_TO_LOCAL_DATA` to `~/Documents/data2/mnist` in `mnist.py`.
 
-The `dataset_name` should be the name of the dataset on Tensorport. It is always 
+The `dataset_name` should be the name of the dataset on Tensorport. It is always
 `<username_of_owner>/<data_repo_name>`. You are going to create the dataset now,
-so you will be able to update`<username_of_owner>/<dataset_name>` accordingly 
+so you will be able to update`<username_of_owner>/<dataset_name>` accordingly
 (in my example, `malo/mnist-dataset`).
 
 The tree on TensorPort will be:
