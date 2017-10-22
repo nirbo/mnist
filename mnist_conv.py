@@ -201,7 +201,7 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
 
     embedding = tf.Variable(tf.zeros([1024, embedding_size]), name="test_embedding")
     assignment = embedding.assign(embedding_input)
-    saver = tf.train.Saver()
+    saver = tf.train.Saver(save_relative_paths=True)
 
     writer = tf.summary.FileWriter(FLAGS.log_dir)
 
@@ -217,7 +217,8 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
   with tf.train.MonitoredTrainingSession(
       master=target,
       is_chief=(FLAGS.task_index == 0),
-      checkpoint_dir=FLAGS.log_dir) as sess:
+      checkpoint_dir=FLAGS.log_dir,
+      saver=saver) as sess:
 
     writer.add_graph(sess.graph)
     tf.contrib.tensorboard.plugins.projector.visualize_embeddings(writer, config)
