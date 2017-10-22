@@ -198,7 +198,7 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
       correct_prediction = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
       accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
       tf.summary.scalar("accuracy", accuracy)
-
+      accuracy = tf.Print(accuracy, [accuracy], message="Accuracy = ")
     summ = tf.summary.merge_all()
 
     embedding = tf.Variable(tf.zeros([1024, embedding_size]), name="test_embedding")
