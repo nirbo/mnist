@@ -82,7 +82,7 @@ FLAGS = flags.FLAGS
 
 
 def device_and_target():
-  # If FLAGS.job_name is not set, we're running single-machine TensorFlow.
+  # If FLAGS.job_name is not set, we're running single-node TensorFlow.
   # Don't set a device.
   if FLAGS.job_name is None:
     print("Running single-machine training")
@@ -185,11 +185,11 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
       embedding_size = 7*7*64
       logits = fc_layer(flattened, 7*7*64, 10, "fc")
 
-    with tf.name_scope("xent"):
+    with tf.name_scope("cross_entropy"):
       xent = tf.reduce_mean(
           tf.nn.softmax_cross_entropy_with_logits(
-              logits=logits, labels=y), name="xent")
-      tf.summary.scalar("xent", xent)
+              logits=logits, labels=y), name="cross_entropy")
+      tf.summary.scalar("cross_entropy", xent)
 
     with tf.name_scope("train"):
       train_step = tf.train.AdamOptimizer(learning_rate).minimize(xent)
