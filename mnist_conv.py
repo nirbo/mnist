@@ -17,6 +17,8 @@ import tensorflow as tf
 import sys
 import urllib
 
+from tensorflow.python.training import monitored_session
+
 from tensorport import get_data_path, get_logs_path
 
 slim = tf.contrib.slim
@@ -202,14 +204,15 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
     embedding = tf.Variable(tf.zeros([1024, embedding_size]), name="test_embedding")
     assignment = embedding.assign(embedding_input)
     saver = tf.train.Saver(save_relative_paths=True)
+    scaffold = monitored_session.Scaffold(saver=saver)
 
     writer = tf.summary.FileWriter(FLAGS.log_dir)
 
     config = tf.contrib.tensorboard.plugins.projector.ProjectorConfig()
     embedding_config = config.embeddings.add()
     embedding_config.tensor_name = embedding.name
-    embedding_config.sprite.image_path = FLAGS.log_dir + 'sprite_1024.png'
-    embedding_config.metadata_path = FLAGS.log_dir + 'labels_1024.tsv'
+    embedding_config.sprite.image_path = './sprite_1024.png'
+    embedding_config.metadata_path = './labels_1024.tsv'
     # Specify the width and height of a single thumbnail.
     embedding_config.sprite.single_image_dim.extend([28, 28])
 
@@ -218,7 +221,7 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc, hparam):
       master=target,
       is_chief=(FLAGS.task_index == 0),
       checkpoint_dir=FLAGS.log_dir,
-      saver=saver) as sess:
+      scaffold=scaffold) as sess:
 
     writer.add_graph(sess.graph)
     tf.contrib.tensorboard.plugins.projector.visualize_embeddings(writer, config)
