@@ -10,7 +10,7 @@ This is a demo to show you how to run a handwritten digit recognition model on [
 
 
 
-Follow the instructions below to run the model on TensorPort using the tport command line interface. For an in-depth tutorial based on this repository, check out the [TensorPort documentation](https://docs.tensorport.com). **TODO: make this link a specific page!**
+Follow the instructions below to run the model on TensorPort using the tport command line interface. For an in-depth tutorial based on this repository, check out the [TensorPort documentation](https://docs.tensorport.com/v1.0/docs/mnist-with-tensorport).
 
 ## Table of Contents
 
@@ -83,7 +83,7 @@ The job will start automatically. You can monitor its progress on the command li
 
 ## More Info
 
-For further information on this example, take a look at the tutorial based on this repository in the [TensorPort Documentation](https://docs.tensorport.com). **Specific link here!**
+For further information on this example, take a look at the tutorial based on this repository in the [TensorPort Documentation](https://docs.tensorport.com/v1.0/docs/mnist-with-tensorport).
 
 For further info on the MNIST dataset, check out [Yann LeCun's page](http://yann.lecun.com/exdb/mnist/) about it. To learn more about TensorFlow and Deep Learning in general, take a look at the [TensorFlow](https://tensorflow.org) website.
 
