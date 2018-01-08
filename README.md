@@ -33,7 +33,9 @@ To run this project, you need:
 
 Start out by cloning this repository onto your local machine. 
 
-Then, navigate to the folder you cloned into and open [mnist.py](mnist.py). Find the variables `PATH_TO_LOCAL_LOGS` and `ROOT_PATH_TO_LOCAL_DATA`. Change the paths to where you want log files and data to be saved on your local machine. The default is `~/Documents/mnist/logs` for log files and `~/Documents/data/mnist` for the data. Make sure Python has permission to write in the folders you choose.
+Then, navigate to the folder you cloned into and open [mnist.py](mnist.py). Find the variables `PATH_TO_LOCAL_LOGS` and `ROOT_PATH_TO_LOCAL_DATA`. Change the paths to where you want log files and data to be saved on your local machine. 
+
+The default is `~/Documents/mnist/logs` for log files and `~/Documents/data/mnist` for the data. Make sure Python has permission to write in the folders you choose.
 
 That's it, you're all set up!
 
