@@ -1,8 +1,8 @@
 # MNIST on TensorPort
 <p align="center">
-<img src="https://raw.githubusercontent.com/SvenChmie/mnist/master/tp_logo.png" alt="TensorPort" width="226">
+<img src="https://raw.githubusercontent.com/SvenChmie/mnist/master/tp_logo.png" alt="TensorPort" width="200">
 <br>
-[![join us on slack](https://slackin-altdyjrdgq.now.sh/badge.svg)](https://slackin-altdyjrdgq.now.sh)
+<a href="https://slackin-altdyjrdgq.now.sh"><img src="https://slackin-altdyjrdgq.now.sh/badge.svg" alt="join us on slack"></a>
 </p>
 
 This is a demo to show you how to run a handwritten digit recognition model on [TensorPort](https://tensorport.com). The demo uses [TensorFlow](https://tensorflow.org) and the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset.
