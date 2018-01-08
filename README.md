@@ -62,7 +62,7 @@ Instead of on your local machine, you can also run the program online on the Ten
 First, create a new project on TensorPort:
 
 ```shell
-$ tport create project <PROJECT_NAME>
+$ tport create project --name <PROJECT_NAME>
 ```
 
 Then, upload the code to the new project:
@@ -74,9 +74,11 @@ $ git push tensorport master
 Finally, create a job and run it. Make sure to replace `YOUR_USERNAME` and `PROJECT_NAME` with your username and the name of your TensorPort project.
 
 ```shell
-$ tport create --project <YOUR_USERNAME>/<PROJECT_NAME> \ 
+$ tport run --project <YOUR_USERNAME>/<PROJECT_NAME> \ 
 --module mnist --requirements requirements.txt --framework-version 1.0.0 \
---mode distributed --time-limit 1h --description ""
+--mode distributed --worker-replicas 2 --worker-type p2.xlarge \
+--ps-replicas 1 --ps-type c4.2xlarge \
+--time-limit 1h --description ""
 ```
 
 The job will start automatically. You can monitor its progress on the command line using `tport pulse`. More elaborate monitoring is available on the [Matrix](https://tensorport.com/matrix), TensorPort's graphical web interface. 
