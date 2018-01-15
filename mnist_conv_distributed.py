@@ -26,11 +26,11 @@ else:
 
 # ----- Insert that snippet to run distributed jobs -----
 
-from tensorport import get_data_path, get_logs_path
+from clusterone import get_data_path, get_logs_path
 
 # Specifying paths when working locally
-# For convenience we use a tensorport wrapper (get_data_path below) to be able
-# to switch from local to tensorport without cahnging the code.
+# For convenience we use a clusterone wrapper (get_data_path below) to be able
+# to switch from local to clusterone without cahnging the code.
 
 PATH_TO_LOCAL_LOGS = os.path.expanduser('~/Documents/mnist/logs')
 ROOT_PATH_TO_LOCAL_DATA = os.path.expanduser('~/Documents/data/')
@@ -71,17 +71,17 @@ flags.DEFINE_string("data_dir",
                         ),
                     "Path to store logs and checkpoints. It is recommended"
                     "to use get_logs_path() to define your logs directory."
-                    "so that you can switch from local to tensorport without"
+                    "so that you can switch from local to clusterone without"
                     "changing your code."
                     "If you set your logs directory manually make sure"
-                    "to use /logs/ when running on TensorPort cloud.")
+                    "to use /logs/ when running on ClusterOne cloud.")
 flags.DEFINE_string("log_dir",
                      get_logs_path(root=PATH_TO_LOCAL_LOGS),
                     "Path to dataset. It is recommended to use get_data_path()"
                     "to define your data directory.so that you can switch "
-                    "from local to tensorport without changing your code."
+                    "from local to clusterone without changing your code."
                     "If you set the data directory manually makue sure to use"
-                    "/data/ as root path when running on TensorPort cloud.")
+                    "/data/ as root path when running on ClusterOne cloud.")
 FLAGS = flags.FLAGS
 
 def device_and_target():

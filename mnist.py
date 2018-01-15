@@ -4,7 +4,7 @@ import math
 import os
 
 import tensorflow as tf
-from tensorport import get_data_path, get_logs_path
+from clusterone import get_data_path, get_logs_path
 
 from tensorflow.examples.tutorials.mnist import mnist
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
@@ -48,17 +48,17 @@ flags.DEFINE_string("data_dir",
                         ),
                     "Path to store logs and checkpoints. It is recommended"
                     "to use get_logs_path() to define your logs directory."
-                    "so that you can switch from local to tensorport without"
+                    "so that you can switch from local to clusterone without"
                     "changing your code."
                     "If you set your logs directory manually make sure"
-                    "to use /logs/ when running on TensorPort cloud.")
+                    "to use /logs/ when running on ClusterOne cloud.")
 flags.DEFINE_string("log_dir",
                      get_logs_path(root=PATH_TO_LOCAL_LOGS),
                     "Path to dataset. It is recommended to use get_data_path()"
                     "to define your data directory.so that you can switch "
-                    "from local to tensorport without changing your code."
+                    "from local to ClusterOne without changing your code."
                     "If you set the data directory manually makue sure to use"
-                    "/data/ as root path when running on TensorPort cloud.")
+                    "/data/ as root path when running on ClusterOne cloud.")
 
 flags.DEFINE_integer("hidden1", 128,
                      "Number of units in the 1st hidden layer of the NN")
