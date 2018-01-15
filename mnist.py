@@ -9,8 +9,8 @@ from tensorport import get_data_path, get_logs_path
 from tensorflow.examples.tutorials.mnist import mnist
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
 
-PATH_TO_LOCAL_LOGS = os.path.expanduser('~/Documents/mnist/logs')
-ROOT_PATH_TO_LOCAL_DATA = os.path.expanduser('~/Documents/data/mnist')
+PATH_TO_LOCAL_LOGS = os.path.abspath(os.path.expanduser('~/Documents/mnist/logs'))
+ROOT_PATH_TO_LOCAL_DATA = os.path.abspath(os.path.expanduser('~/Documents/data/mnist'))
 
 try:
   job_name = os.environ['JOB_NAME']

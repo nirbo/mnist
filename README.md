@@ -1,495 +1,96 @@
-This demo will teach you how to run TensorFlow models on TensorPort. We will go
-from a simple mnist demo to a more complex self-steering car demo.
+# MNIST on TensorPort
+<p align="center">
+<img src="https://raw.githubusercontent.com/SvenChmie/mnist/master/tp_logo.png" alt="TensorPort" width="200">
+<br>
+<br>
+<a href="https://slackin-altdyjrdgq.now.sh"><img src="https://slackin-altdyjrdgq.now.sh/badge.svg" alt="join us on slack"></a>
+</p>
 
-1.1. Simple mnist (google TensorFlow demo) - no dataset setup
+This is a demo to show you how to run a handwritten digit recognition model on [TensorPort](https://tensorport.com). The demo uses [TensorFlow](https://tensorflow.org) and the [MNIST](http://yann.lecun.com/exdb/mnist/) dataset.
 
-1.2. Deep dive into dataset setup
 
-2.1. CNN mnist - single-node
 
-2.2. Make that CNN distributed
+Follow the instructions below to run the model on TensorPort using the tport command line interface. For an in-depth tutorial based on this repository, check out the [TensorPort documentation](https://docs.tensorport.com/v1.0/docs/mnist-with-tensorport).
 
-3. [Self - steering car](https://github.com/malomarrec/tensorport-self-driving-demo)
+## Table of Contents
 
-4. Build your own! You can also use this [distributed TensorFlow template](https://github.com/tensorport/tensorport-template)
+- [Install](#install)
+- [Usage](#usage)
+- [More Info](#more-info)
+- [License](#license)
 
-# Setup
+## Install
 
-You need an account on https://www.tensorport.com/
+To run this project, you need:
 
-Start off by getting the TensorPort CLI:
+- [Python](https://python.org/) 3.5 or higher
+- [Git](https://git-scm.com/)
+- The TensorPort Python library. Install it with `pip install tensorport`
+- TensorFlow 1.0.0 or higher. Install it with `pip install tensorflow`
+- A TensorPort account. [Sign up](https://tensorport.com/) for free if you don't have an account yet.
 
-```bash
-pip install tensorport
-```
+### Setting Up
 
-You can now login through `tport login`.
+Start out by cloning this repository onto your local machine. 
 
-Then clone this repo on your computer:
+Then, navigate to the folder you cloned into and open [mnist.py](mnist.py). Find the variables `PATH_TO_LOCAL_LOGS` and `ROOT_PATH_TO_LOCAL_DATA`. Change the paths to where you want log files and data to be saved on your local machine. 
 
-``` bash
-$ git clone https://github.com/tensorport/mnist
-```
+The default is `~/Documents/mnist/logs` for log files and `~/Documents/data/mnist` for the data. Make sure Python has permission to write in the folders you choose.
 
-`cd` into that repo.
+That's it, you're all set up!
 
-# 1.1 Simple mnist
+## Usage
 
-For this step we will run `mnist.py`. This is a simple one layer network.
-The data will be downloaded automatically in what you specify in the code in
-`<ROOT_PATH_TO_LOCAL_DATA>/mnist-dataset` and the outputs and logs in
-`PATH_TO_LOCAL_LOGS`.
+In this example, we use the tport command line tool. It comes with the TensorPort Python library and is installed automatically with the library.
 
-## Run locally
+Start by opening a command line and logging into your TensorPort account using `tport login`.
 
-You can run that code in your local environment with:
+### Run locally as one-layer network
+
+Now, run the demo as a simple one-layer network:
 
 ```bash
 $ python mnist.py
 ```
-You should see loss values starting to appear.
-Note that you need to have TensorFlow 1.0.0 or later installed in that environment.
 
-## Simulate a distributed environment locally
+The program will download the MNIST dataset automatically into the data location you specified during setup. Once the network starts training, you should see loss values appear in the console.
 
-Before running on TensorPort, we want to make sure that the code runs in a
-distributed fashion. To speed up that process, the TensorPort CLI can
-simulate a remote and distributed TensorPort environment on your computer.
+### Run on TensorPort
 
-### Single-node
+Instead of on your local machine, you can also run the program online on the TensorPort platform.
 
-Let's first run a single-node TensorPort environment. This will create an empty
-virtualenv, and optionally install the requirements specified in a requirements
-file.
+First, create a new project on TensorPort:
 
-```bash
-$ tport run --local --single-node
--> Specify the python module to run [main]:
-$ mnist
--> Requirements file not specified. You can
-   0- Specify a requirements file
-   1- Run without installing any requirments
-   2- Use your current environment (not recommended).
-$ ...
+```shell
+$ tport create project --name <PROJECT_NAME>
 ```
 
-Here we don't need any specific library, so we can just use a basic virtualenv
-with TensorFlow only. Select 1. The utility will install a basic virtualenv and
-run your code.
+Then, upload the code to the new project:
 
-```
-Running single-node locally
-Using real prefix '/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/Versions/2.7'
-New python executable in /Users/malo/.tensorport/env/test/bin/python2.7
-Also creating executable in /Users/malo/.tensorport/env/test/bin/python
-...
-I TensorFlow/core/kernels/logging_ops.cc:79] Loss = [0.080547988]
-I TensorFlow/core/kernels/logging_ops.cc:79] Loss = [0.15762429]
-I TensorFlow/core/kernels/logging_ops.cc:79] Loss = [0.097241819]
-```
-That step can be useful to debug a script and make sure all requirements will
-be installed remotely.
-
-### Distributed
-
-`* There is a known issue in some environments with that part of the mnist demo. We are working on fixing it. The code runs on the TensorPort cluster, even though the distributed environment simulation fails. We encourage you to check out the self-steering car demo as a proxy for this part *`
-
-To simulate a distributed environment, run:
-
-
-```bash
-$ tport run --local --distributed
--> Specify the python module to run [main]:
-$ mnist
--> Requirements file not specified. You can
-   0- Specify a requirements file
-   1- Run without installing any requirments
-   2- Use your current environemt (not recommended).
-$ ...
-```
-
-```
--> Select number of workers [1]:
-```
-
-Enter the number of workers you want to emulate, or press enter to get the
-default (1). Don't go too crazy on the number of workers, this is running on
-your local machine!
-
-```
--> Select number of paramter servers [1]:
-```
-The parameter server will handle storing your model parameters and handle
-I/O to workers. 1 should be enough.
-
-
-```
- -> Specify the python module to run [main]:
- $ mnist
- -> Requirements file not specified. You can
-    0- Specify a requirements file
-    1- Run without installing any requirments
-    2- Use your current environemt (not recommended).
- $ 1
-```
-
-Note: This code will work only on TensorFlow 1.0.0 (it will fail on more recent
-versions in distributed mode).
-
-Note that all of this can be passed in one single command:
-
-```bash
-tport run --local --distributed --worker-replicas 2 --ps-replicas 1 --requirements 1 --module mnist
-```
-
-
-## Run on TensorPort
-
-Our code is ready to run on TensorPort.
-
-### Create a TensorPort Project
-
-`cd` into the repo then run
-
-``` bash
-$ tport create project
- -> Choose a valid project name:
-$ mnist-demo
-Creating project mnist-demo .......
-Project malo/mnist-demo is created.
-Matrix: https://tensorport.com/matrix/malo/mnist-demo
-
-Push the code to TensorPort using 'git push tensorport master'
-```
-
-The project has been create on TensorPort's git. Let's push the code:
-
-``` bash
+```shell
 $ git push tensorport master
 ```
 
-You should see:
-```
-Counting objects: 30, done.
-Delta compression using up to 8 threads.
-Compressing objects: 100% (29/29), done.
-Writing objects: 100% (30/30), 180.55 KiB | 0 bytes/s, done.
-Total 30 (delta 14), reused 0 (delta 0)
-To https://git.tensorport.com/malo/mnist-demo.git
- * [new branch]      master -> master
- ```
+Finally, create a job and run it. Make sure to replace `YOUR_USERNAME` and `PROJECT_NAME` with your username and the name of your TensorPort project.
 
-Our code is uploaded, we're ready to run.
-
-```bash
-$ tport run
--> Job name [cool-shape-270]:
-```
-Select the project:
-```
--> Select the project that you want to use or specify --project parameter.
-0 | malo/mnist-demo | Commits: 8
-1 | malo/self-driving-car-1 | Commits: 20
-$ 0
+```shell
+$ tport run --project <YOUR_USERNAME>/<PROJECT_NAME> \ 
+--module mnist --requirements requirements.txt --framework-version 1.0.0 \
+--mode distributed --worker-replicas 2 --worker-type p2.xlarge \
+--ps-replicas 1 --ps-type c4.2xlarge \
+--time-limit 1h --description ""
 ```
 
-Now select the most recent commit (0):
-``` bash
--> Specify the commit for the job, select 0 for latest commit:
-|   | Commit # | Commit message                                        | date                |
-|---|----------|-------------------------------------------------------|---------------------|
-| 0 | d7d1ad23 | Minor fixes on paths                                  | 2017-07-14T11:42:38 |
-| 1 | 0aa4592e | Start work on doc                                     | 2017-07-14T11:26:39 |
-| 2 | 166c44ee | Fix issue with stringy task index (move to flag to do | 2017-07-13T18:33:11 |
-|   |          | the casting) + add accuracy out                       |                     |
-...
-Select commit from [0 - 7] [0]: 0
-```
+The job will start automatically. You can monitor its progress on the command line using `tport pulse`. More elaborate monitoring is available on the [Matrix](https://tensorport.com/matrix), TensorPort's graphical web interface. 
 
-Now pick the python module you want to run, and leave the package path empty as
-the module is in the root.
-```bash
-Specify the python module to run [main]: mnist
--> Specify the package path []:
--> Do you want to add a dataset to the job? Y/n [y]: n
--> Specify the requirements file [requirements.txt]:
--> Select a TensorFlow version from
-0 | 1.0.0
-1 | 1.1.0
-2 | 1.2.0
-$ 0
--> Select number of workers [1]: 2
--> Select instance type of workers from:
-| # | Name       | CPU | GPU  | Memory(GiB) |
-|---|------------|-----|------|-------------|
-| 0 | c4.2xlarge | 8   | None | 15          |
-| 1 | p2.xlarge  | 4   | 1    | 61          |
-| 2 | t2.small   | 1   | None | 2           |
--> Select instance type of workers from [0 - 2] [0]: 1
-p2.xlarge selected for workers' instance type
--> Select number of paramter servers [1]: 1
--> Select instance type of parameter servers from:
-| # | Name       | CPU | GPU  | Memory(GiB) |
-|---|------------|-----|------|-------------|
-| 0 | c4.2xlarge | 8   | None | 15          |
-| 1 | p2.xlarge  | 4   | None | 61          |
-| 2 | t2.small   | 1   | None | 2           |
--> Select instance type of parameter servers from [0 - 2] [0]: 0
-c4.2xlarge selected for parameter servers' instance type
+## More Info
 
--> Select the time limit for the job [48h0m]:
-Job will run for 48 hours and 0 minutes
+For further information on this example, take a look at the tutorial based on this repository in the [TensorPort Documentation](https://docs.tensorport.com/v1.0/docs/mnist-with-tensorport).
 
--> Job description [optional] []:
-Job crimson-fog-711 created successfully.
+For further info on the MNIST dataset, check out [Yann LeCun's page](http://yann.lecun.com/exdb/mnist/) about it. To learn more about TensorFlow and Deep Learning in general, take a look at the [TensorFlow](https://tensorflow.org) website.
 
-You can see your job in matrix : https://tensorport.com/matrix/malo/mnist-demo.
+## License
 
-Job 'crimson-fog-711' started.
-```
+[MIT](LICENSE) © Good AI Lab, Inc.
 
-Your job is created and running. You can monitor the status of your jobs with:
-
-``` bash
-$ tport pulse
-```
-
-You can watch the progress of the resources requirements and data cloning by running:
-```bash
-$ tport watch
-```
-Log on to Matrix to see the outputs and add the project to TensorBoard.
-
-
-# 1.2 Deep dive into dataset setup
-
-In the previous part, we've left aside how to setup a dataset, as the data was
-small enough and could be automatically downloaded by the script. In most cases
-however the data is large enough that we don't want to have to move it around
-too much.
-
-In that part we'll take the same example and add dataset handling.
-
-If you've run the previous script, data should have been downloaded in
-`<ROOT_PATH_TO_LOCAL_DATA>/mnist-dataset`, in my case `~/Documents/data`
-
-
-Copy that data somewhere else:, for example in `~/Documents/data/`.
-Right now the download utility creates an `mnist` folder, so the local tree
-looks like this:
-```
-~/Documents
-  | data
-    | mnist-dataset
-      | mnist
-         | t10k-labels-idx1-ubyte.gz
-         | t10k-images-idx3-ubyte.gz
-         | <files>
-```
-
-
-For this example, we'll pretend that we are creating a dataset from scratch.
-Copy the dataset somewhere else, for example in `~/Documents/data2`.
-Now the local tree is:
-
-```
-~/Documents
-  | data2
-    | mnist-dataset
-      | mnist
-         | t10k-labels-idx1-ubyte.gz
-         | t10k-images-idx3-ubyte.gz
-         | <files>
-````
-
-Remove the dataset from the old location.
-
-`cd` into the mnist repo, and initialize a git repo there.
-
-```bash
-$ git init
-$ git add *
-$ git commit -m "First commit: add data"
-```
-
-Once this is done, we can create the TensorPort dataset:
-
-```bash
-$ tport create dataset
- -> Choose a valid dataset name: mnist-dataset
-Creating dataset test-comma ......
-Dataset malo/test-comma is created.
-Matrix: https://tensorport.com/matrix/malo/test-comma
-```
-
-Now let's push the code to TensorPort:
-
-``` bash
-$ git push tensorport master
-```
-
-This is not the best way to handle data for large files. We will use Git LFS
-to speed things up in part 3) of this tutorial (self-steering car).
-
-In the code, we need to update the location of the data (if you don't do it, the
-code will still run but it will download the dataset anew). You need to update the
-`data_dir` flag. To make sure we can use the same code on TensorPort and locally
-we use a small wrapper `get_data_path(dataset_name, local_root, local_repo, path)`
-with:
-- `dataset_name`: the dataset name on TensorPort
-- `local_root`: the dataset root locally (here `ROOT_PATH_TO_LOCAL_DATA`)
-- `local_repo`: the name of the local data repo (can be = `dataset_name`)
-- `path`: path to the files within the dataset, if you have a complicated tree
-
-Locally, that wrapper returns:
-`local_root/local_repo/path`, here: `~/Documents/data2/mnist` as `path =''`.
-On TensorPort, that function returns:
-`/data/dataset_name/path`.
-
-Let's change `ROOT_PATH_TO_LOCAL_DATA` to `~/Documents/data2/mnist` in `mnist.py`.
-
-The `dataset_name` should be the name of the dataset on Tensorport. It is always
-`<username_of_owner>/<data_repo_name>`. You are going to create the dataset now,
-so you will be able to update`<username_of_owner>/<dataset_name>` accordingly
-(in my example, `malo/mnist-dataset`).
-
-The tree on TensorPort will be:
-
-```
-data
-  | malo
-    | mnist-dataset
-       | t10k-labels-idx1-ubyte.gz
-       | t10k-images-idx3-ubyte.gz
-       | <files>
-```
-
-but we don't need to worry too much about this as get_data_path will take care of it.
-
-Now we can:
-- push the updated code to TensorPort
-- run a job
-
-Run using `tport run` just as in the previous part, but at the dataset prompt:
-```
- -> Do you want to add a dataset to the job? Y/n [y]: y
- -> Select a dataset
-0 | malo/mnist
-1 | malo/comma-train-only
- -> Select dataset to use from [0 - 1] [0]:
-$ 0
- -> Do you want to add another datasetport t to the job? y/N [n]:
- $ n
- -> Specify the requirements file [requirements.txt]:
--> Select a TensorFlow version from
-0 | 1.0.0
-1 | 1.1.0
-2 | 1.2.0
-$ 0
-...[same process as in the first part]
-```
-
-Now our job started, as we can see with `tport pulse`, and we can monitor the
-workflow with `tport watch`.
-
-In the next two steps we will explain more about how to write your script so
-that it runs in distributed mode on TensorPort. To make it a little more interesting,
-we'll use an CNN model on the mnist dataset.
-
-
-# 2.1 CNN mnist - single-node
-Open mnist_conv_local.py. This code is a CNN version of mnist, that runs only on
-a single node. It's there as a point of comparison for the distributed code.
-It has nice TensorBoard summaries that you can visualize on the platform.
-
-# 2.1 CNN mnist - distributed
-
-To run a distributed model, we use TensorFlow's [`MonitoredTrainingSession`](https://www.TensorFlow.org/api_docs/python/tf/train/MonitoredTrainingSession).
-A TensorPort utility take care of all the node set up.
-
-Open mnist_conv_distributed.py.
-
-From line 27, the code is a TensorPort snippet (that you can reuse) that configures
-the distributed training. Let's go over it block by block.
-
-```python
-try:
-  job_name = os.environ['JOB_NAME']
-  task_index = os.environ['TASK_INDEX']
-  ps_hosts = os.environ['PS_HOSTS']
-  worker_hosts = os.environ['WORKER_HOSTS']
-except:
-  job_name = None
-  task_index = 0
-  ps_hosts = None
-  worker_hosts = None
-```
-
-This block recovers the environment of the node the script is running on, or
-no environment if it is running locally. That will be passed to the MonitoredTrainingSession
-so that only the Master will save checkpoints and parameters servers are configured
-properly.
-
-The following FLAGS section was covered in the previous part.
-
-```python
-def device_and_target():
-  # If FLAGS.job_name is not set, we're running single-machine TensorFlow.
-  # Don't set a device.
-  if FLAGS.job_name is None:
-    print("Running single-machine training")
-    return (None, "")
-
-  # Otherwise we're running distributed TensorFlow
-  print("Running distributed training")
-  if FLAGS.task_index is None or FLAGS.task_index == "":
-    raise ValueError("Must specify an explicit `task_index`")
-  if FLAGS.ps_hosts is None or FLAGS.ps_hosts == "":
-    raise ValueError("Must specify an explicit `ps_hosts`")
-  if FLAGS.worker_hosts is None or FLAGS.worker_hosts == "":
-    raise ValueError("Must specify an explicit `worker_hosts`")
-
-  cluster_spec = tf.train.ClusterSpec({
-      "ps": FLAGS.ps_hosts.split(","),
-      "worker": FLAGS.worker_hosts.split(","),
-  })
-  server = tf.train.Server(
-      cluster_spec, job_name=FLAGS.job_name, task_index=FLAGS.task_index)
-  if FLAGS.job_name == "ps":
-    server.join()
-
-  worker_device = "/job:worker/task:{}".format(FLAGS.task_index)
-  # The device setter will automatically place Variables ops on separate
-  # parameter servers (ps). The non-Variable ops will be placed on the workers.
-  return (
-      tf.train.replica_device_setter(
-          worker_device=worker_device,
-          cluster=cluster_spec),
-      server.target,
-  )
-```
-In a distributed environment, `device_and_target()` creates the Cluster config.
-`device, target = device_and_target()` gets the node environment. We will use it
-when we set up the model graph:
-
-```python
-with tf.device(device):
-  # define here the computation graph
-  # placeholders
-  # nodes
-  # loss
-```
-
-and as arguments to the training session:
-
-```
-tf.train.MonitoredTrainingSession(
-     master=target,
-     is_chief=(FLAGS.task_index == 0), #only the chief will save checkpoints
-     checkpoint_dir=FLAGS.log_dir) as sess:
-
-     #run session
-```
-
-
-Now you should be good to go and run this on TensorPort :).
+The [MNIST](http://yann.lecun.com/exdb/mnist/) dataset has been created and curated by Corinna Cortes, Christopher J.C. Burges, and Yann LeCun.
