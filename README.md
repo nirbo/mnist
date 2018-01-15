@@ -91,6 +91,6 @@ For further info on the MNIST dataset, check out [Yann LeCun's page](http://yann
 
 ## License
 
-[MIT](LICENSE) © Good AI Lab, Inc.
+[MIT](LICENSE) © ClusterOne Inc.
 
 The [MNIST](http://yann.lecun.com/exdb/mnist/) dataset has been created and curated by Corinna Cortes, Christopher J.C. Burges, and Yann LeCun.
