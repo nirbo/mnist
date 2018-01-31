@@ -55,7 +55,9 @@ $ git push clusterone master
 Finally, create a job and run it. Make sure to replace `YOUR_USERNAME` with your username.
 
 ```shell
-$ just run --project <YOUR_USERNAME>/mnist --module mnist --name first-job --description first-job --worker-replicas 2 --worker-type c4.2xlarge --ps-replicas 1 --ps-type c4.2xlarge --time-limit 1h
+$ just run --project <YOUR_USERNAME>/mnist --module mnist --name first-job \
+--description first-job --worker-replicas 2 --worker-type c4.2xlarge \
+--ps-replicas 1 --ps-type c4.2xlarge --time-limit 1h
 ```
 
 The job will start automatically. You can monitor its progress on the command line using `just pulse`. More elaborate monitoring is available on the [Matrix](https://clusterone.com/matrix), ClusterOne's graphical web interface.
