@@ -25,7 +25,7 @@ To run this project on the ClusterOne platform, you need:
 
 - [Python](https://python.org/) 3.5
 - [Git](https://git-scm.com/)
-- The ClusterOne Python library. Install it with `pip install clusterone==2.0.0a0`
+- The ClusterOne Python library. Install it with `pip install clusterone==2.0.0a02`
 - A ClusterOne account. [Sign up](https://clusterone.com/) for free if you don't have an account yet.
 
 ### Setting Up
@@ -42,7 +42,7 @@ Now you're all set to run MNIST on ClusterOne!
 
 These instructions use the `just` command line tool. It comes with the ClusterOne Python library and is installed automatically with the library.
 
-Start by opening a command line and logging into your ClusterOne account using `just login`.
+cd into the folder you just downloaded with `cd mnist`  and log into your ClusterOne account using `just login`.
 
 First, create a new project on ClusterOne:
 
@@ -60,8 +60,7 @@ Finally, create a job. Make sure to replace `YOUR_USERNAME` with your username.
 
 ```shell
 $ just create job distributed --project YOUR_USERNAME/mnist --module mnist --name first-job \
---description first-job --python-version 3 --framework-version 1.0 \
---worker-replicas 2 --worker-type c4.2xlarge --ps-replicas 1 --ps-type c4.2xlarge --time-limit 1h
+--description first-job --python-version 3 --framework-version 1.0.0 --time-limit 1h
 ```
 
 Now all that's left to do is starting the job:
