@@ -23,16 +23,20 @@ Follow the instructions below to run the model on ClusterOne using the `just` co
 
 To run this project on the ClusterOne platform, you need:
 
-- [Python](https://python.org/) 3.5 or higher
+- [Python](https://python.org/) 3.5
 - [Git](https://git-scm.com/)
-- The ClusterOne Python library. Install it with `pip install clusterone`
+- The ClusterOne Python library. Install it with `pip install clusterone==2.0.0a0`
 - A ClusterOne account. [Sign up](https://clusterone.com/) for free if you don't have an account yet.
 
 ### Setting Up
 
 Start out by cloning this repository onto your local machine. 
 
-That's it! You're all set to run MNIST on ClusterOne.
+```shell
+$ git clone https://github.com/clusterone/mnist
+```
+
+Now you're all set to run MNIST on ClusterOne!
 
 ## Usage
 
@@ -43,7 +47,7 @@ Start by opening a command line and logging into your ClusterOne account using `
 First, create a new project on ClusterOne:
 
 ```shell
-$ just create project --name mnist
+$ just init project mnist
 ```
 
 Then, upload the code to the new project:
@@ -52,15 +56,21 @@ Then, upload the code to the new project:
 $ git push clusterone master
 ```
 
-Finally, create a job and run it. Make sure to replace `YOUR_USERNAME` with your username.
+Finally, create a job. Make sure to replace `YOUR_USERNAME` with your username.
 
 ```shell
-$ just run --project <YOUR_USERNAME>/mnist --module mnist --name first-job \
---description first-job --worker-replicas 2 --worker-type c4.2xlarge \
---ps-replicas 1 --ps-type c4.2xlarge --time-limit 1h
+$ just create job distributed --project YOUR_USERNAME/mnist --module mnist --name first-job \
+--description first-job --python-version 3 --framework-version 1.0 \
+--worker-replicas 2 --worker-type c4.2xlarge --ps-replicas 1 --ps-type c4.2xlarge --time-limit 1h
 ```
 
-The job will start automatically. You can monitor its progress on the command line using `just pulse`. More elaborate monitoring is available on the [Matrix](https://clusterone.com/matrix), ClusterOne's graphical web interface.
+Now all that's left to do is starting the job:
+
+```shell
+$ just start job -p mnist/first-job
+```
+
+That's it! You can monitor its progress on the command line using `just pulse`. More elaborate monitoring is available on the [Matrix](https://clusterone.com/matrix), ClusterOne's graphical web interface.
 
 ## More Info
 
