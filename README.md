@@ -60,7 +60,8 @@ Finally, create a job. Make sure to replace `YOUR_USERNAME` with your username.
 
 ```shell
 $ just create job distributed --project YOUR_USERNAME/mnist --module mnist --name first-job \
---description first-job --python-version 3 --framework-version 1.0.0 --time-limit 1h
+--description first-job --python-version 3 --framework-version 1.0.0 --worker-type t2.small \
+--ps-type t2.small --time-limit 1h
 ```
 
 Now all that's left to do is starting the job:
