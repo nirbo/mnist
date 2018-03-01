@@ -1,6 +1,6 @@
 # MNIST on ClusterOne
 <p align="center">
-<img src="c1_logo.png" alt="ClusterOne" width="200">
+<img src="co_logo.png" alt="ClusterOne" width="200">
 <br>
 <br>
 <a href="https://slackin-altdyjrdgq.now.sh"><img src="https://slackin-altdyjrdgq.now.sh/badge.svg" alt="join us on slack"></a>
@@ -25,7 +25,7 @@ To run this project on the ClusterOne platform, you need:
 
 - [Python](https://python.org/) 3.5
 - [Git](https://git-scm.com/)
-- The ClusterOne Python library. Install it with `pip install clusterone==2.0.0a02`
+- The ClusterOne Python library. Install it with `pip install clusterone==2.0.0a03
 - A ClusterOne account. [Sign up](https://clusterone.com/) for free if you don't have an account yet.
 
 ### Setting Up
@@ -60,7 +60,7 @@ Finally, create a job. Make sure to replace `YOUR_USERNAME` with your username.
 
 ```shell
 $ just create job distributed --project YOUR_USERNAME/mnist --module mnist --name first-job \
---description first-job --python-version 3 --framework-version 1.0.0 --worker-type t2.small \
+--python-version 3 --framework-version 1.0.0 --worker-type t2.small \
 --ps-type t2.small --time-limit 1h
 ```
 
