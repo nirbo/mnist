@@ -25,7 +25,7 @@ To run this project on the Clusterone platform, you need:
 
 - [Python](https://python.org/) 3.5
 - [Git](https://git-scm.com/)
-- The Clusterone Python library. Install it with `pip install clusterone==2.0.0a03`
+- The Clusterone Python library. Install it with `pip install clusterone`
 - A Clusterone account. [Sign up](https://clusterone.com/) for free if you don't have an account yet.
 
 ### Setting Up
