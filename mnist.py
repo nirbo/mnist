@@ -25,6 +25,10 @@ except:
 
 flags = tf.app.flags
 
+for param in os.environ.keys():
+    print("%s: %s " % (param, os.environ[param]))
+
+
 # Flags for configuring the distributed task
 flags.DEFINE_string("job_name", job_name,
                     "job name: worker or ps")
