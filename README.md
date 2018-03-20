@@ -33,7 +33,7 @@ To run this project on the Clusterone platform, you need:
 Start out by cloning this repository onto your local machine. 
 
 ```shell
-$ git clone https://github.com/clusterone/mnist
+git clone https://github.com/clusterone/mnist
 ```
 
 Now you're all set to run MNIST on Clusterone!
@@ -47,19 +47,19 @@ cd into the folder you just downloaded with `cd mnist`  and log into your Cluste
 First, create a new project on Clusterone:
 
 ```shell
-$ just init project mnist
+just init project mnist
 ```
 
 Then, upload the code to the new project:
 
 ```shell
-$ git push clusterone master
+git push clusterone master
 ```
 
 Finally, create a job. Make sure to replace `YOUR_USERNAME` with your username.
 
 ```shell
-$ just create job distributed --project YOUR_USERNAME/mnist --module mnist --name first-job \
+just create job distributed --project YOUR_USERNAME/mnist --module mnist --name first-job \
 --python-version 3 --framework tensorflow-1.3.0 --worker-type t2.small \
 --ps-type t2.small --time-limit 1h
 ```
@@ -67,7 +67,7 @@ $ just create job distributed --project YOUR_USERNAME/mnist --module mnist --nam
 Now all that's left to do is starting the job:
 
 ```shell
-$ just start job -p mnist/first-job
+just start job -p mnist/first-job
 ```
 
 That's it! You can monitor its progress on the command line using `just pulse`. More elaborate monitoring is available on the [Matrix](https://clusterone.com/matrix), Clusterone's graphical web interface.
