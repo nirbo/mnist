@@ -10,7 +10,7 @@ This is a demo to show you how to run a handwritten digit recognition model on [
 
 
 
-Follow the instructions below to run the model on Clusterone using the `just` command line tool. This project is part of Clusterone's [Getting Started guide](https://docs.clusterone.com/docs/get-started). There is also an [in-depth tutorial](https://docs.clusterone.com/v1.0/docs/mnist-with-clusterone) based on this repository.
+Follow the instructions below to run the model on Clusterone using the `just` command line tool. This project is part of Clusterone's [Getting Started guide](https://docs.clusterone.com/docs/get-started). There is also an [in-depth tutorial](https://docs.clusterone.com/docs/mnist-with-clusterone) based on this repository.
 
 ## Table of Contents
 
@@ -73,7 +73,7 @@ That's it! You can monitor its progress on the command line using `just get even
 
 ## More Info
 
-For further information on this example, take a look at the tutorial based on this repository in the [Clusterone Documentation](https://docs.clusterone.com/v1.0/docs/mnist-with-clusterone).
+For further information on this example, take a look at the tutorial based on this repository in the [Clusterone Documentation](https://docs.clusterone.com/docs/mnist-with-clusterone).
 
 For further info on the MNIST dataset, check out [Yann LeCun's page](http://yann.lecun.com/exdb/mnist/) about it. To learn more about TensorFlow and Deep Learning in general, take a look at the [TensorFlow](https://tensorflow.org) website.
 
