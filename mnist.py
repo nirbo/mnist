@@ -3,8 +3,10 @@ from __future__ import print_function
 import math
 import os
 
+
 import tensorflow as tf
 from clusterone import get_data_path, get_logs_path
+from clusterone.version import VERSION
 
 from tensorflow.examples.tutorials.mnist import mnist
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
@@ -24,6 +26,14 @@ except:
   worker_hosts = None
 
 flags = tf.app.flags
+
+for param in os.environ.keys():
+    print("%s: %s " % (param, os.environ[param]))
+
+try:
+    print("Clusterne CLI Version: %s" % VERSION)
+except Exception as e:
+    print('Cannot get CLI version')
 
 # Flags for configuring the distributed task
 flags.DEFINE_string("job_name", job_name,
