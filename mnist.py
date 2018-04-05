@@ -25,6 +25,8 @@ except:
 
 flags = tf.app.flags
 
+print(str(flags))
+
 # Flags for configuring the distributed task
 flags.DEFINE_string("job_name", job_name,
                     "job name: worker or ps")
