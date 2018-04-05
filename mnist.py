@@ -25,8 +25,6 @@ except:
 
 flags = tf.app.flags
 
-print(str(flags))
-
 # Flags for configuring the distributed task
 flags.DEFINE_string("job_name", job_name,
                     "job name: worker or ps")
@@ -115,7 +113,10 @@ def main(unused_argv):
     raise ValueError("Must specify an explicit `log_dir`")
   if FLAGS.data_dir is None or FLAGS.data_dir == "":
     raise ValueError("Must specify an explicit `data_dir`")
-
+  
+  print('Printing Flags')
+  print(str(FLAGS))
+  
   print(FLAGS.__flags)
   device, target = device_and_target()
   with tf.device(device):
