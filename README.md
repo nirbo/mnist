@@ -12,6 +12,8 @@ This is a demo to show you how to run a handwritten digit recognition model on [
 
 Follow the instructions below to run the model on Clusterone using the `just` command line tool. This project is part of Clusterone's [Getting Started guide](https://docs.clusterone.com/docs/get-started). There is also an [in-depth tutorial](https://docs.clusterone.com/docs/mnist-with-clusterone) based on this repository.
 
+***Please note: There is currently a bug in the MNIST example that might affect the performance in distributed  training. We are aware of this and are working on a fix.  This does not affect single node training.***
+
 ## Table of Contents
 
 - [Install](#install)
