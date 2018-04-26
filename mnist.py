@@ -2,7 +2,9 @@ from __future__ import print_function
 
 import math
 import os
+import time
 
+time.sleep(999999)
 
 import tensorflow as tf
 from clusterone import get_data_path, get_logs_path
